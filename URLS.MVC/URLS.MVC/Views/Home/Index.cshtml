@@ -1,8 +1,25 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    var banners = ViewBag.Banners as List<Banner>;
 }
 
 <div class="text-center">
+
+    @if (banners != null && banners.Count > 0)
+    {
+        @foreach (var banner in banners)
+        {
+            @if (banner.IsError)
+            {
+                <p class="text-danger">@banner.Text</p>
+            }
+            else
+            {
+                <p class="text-black">@banner.Text</p>
+            }
+        }
+    }
+
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

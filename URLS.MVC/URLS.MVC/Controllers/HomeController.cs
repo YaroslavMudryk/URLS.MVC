@@ -15,6 +15,20 @@ namespace URLS.MVC.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.Banners = new List<Banner>
+            {
+                new Banner
+                {
+                    IsError = false,
+                    Text = "test1"
+                },
+                new Banner
+                {
+                    IsError = true,
+                    Text = "test2"
+                }
+            };
+
             return View();
         }
 

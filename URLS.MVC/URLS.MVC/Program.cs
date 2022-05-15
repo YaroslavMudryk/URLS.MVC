@@ -1,3 +1,5 @@
+using URLS.Api.Extensions;
+
 namespace URLS.MVC
 {
     public class Program
@@ -8,6 +10,8 @@ namespace URLS.MVC
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddUrlsClient();
 
             var app = builder.Build();
 
