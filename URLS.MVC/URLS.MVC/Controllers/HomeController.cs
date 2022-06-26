@@ -1,35 +1,41 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using URLS.MVC.Infrastructure.Exceptions;
+using URLS.MVC.Infrastructure.Services.Interfaces;
 using URLS.MVC.Models;
 
 namespace URLS.MVC.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IAuthService _authService;
+        public HomeController(ILogger<HomeController> logger, IAuthService authService)
         {
             _logger = logger;
+            _authService = authService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Banners = new List<Banner>
+            try
             {
-                new Banner
-                {
-                    IsError = false,
-                    Text = "test1"
-                },
-                new Banner
-                {
-                    IsError = true,
-                    Text = "test2"
-                }
-            };
-
-            return View();
+                var me = await _authService.GetMeAsync();
+                return View(me.Data);
+            }
+            catch (UnauthorizedException)
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                return RedirectToAction("Login", "Account");
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
         }
 
         public IActionResult Privacy()

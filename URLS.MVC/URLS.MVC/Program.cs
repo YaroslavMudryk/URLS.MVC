@@ -1,4 +1,6 @@
-using URLS.Api.Extensions;
+using DeviceDetectorNET.Parser.Device;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using URLS.MVC.Infrastructure.Extensions;
 
 namespace URLS.MVC
 {
@@ -11,7 +13,13 @@ namespace URLS.MVC
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddUrlsClient();
+            builder.Services.AddURLSServices();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                });
 
             var app = builder.Build();
 
@@ -27,7 +35,7 @@ namespace URLS.MVC
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

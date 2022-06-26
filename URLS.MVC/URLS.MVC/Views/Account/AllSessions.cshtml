@@ -1,0 +1,88 @@
+﻿@model IEnumerable<URLS.Models.SessionViewModel>
+
+@{
+    ViewData["Title"] = "AllSessions";
+}
+
+<h1>AllSessions</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.App.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client.Device.Type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (item.IsCurrent)
+            {
+                <tr style="background-color:green">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.App.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.Device.Type)
+                    </td>
+                    <td>
+                        <form method="get" asp-action="Logout" asp-controller="Account">
+                            <input type="submit" value="Закінчити сесію" class="btn-danger btn-primary" />
+                        </form>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.App.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Client.Device.Type)
+                    </td>
+                    <td>
+                        <form method="post" asp-action="CloseSession" asp-controller="Account", asp-route-id="@item.Id">
+                            <input type="submit" value="Закінчити сесію" class="btn-danger btn-primary" />
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

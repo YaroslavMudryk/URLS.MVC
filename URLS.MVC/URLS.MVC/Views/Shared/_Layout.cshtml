@@ -1,9 +1,12 @@
 ﻿<!DOCTYPE html>
+@{
+    var title = User.Identity.IsAuthenticated ? User.Claims.FirstOrDefault(s => s.Type == "Login").Value : "URLS.MVC";
+}
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - URLS.MVC</title>
+    <title>@ViewData["Title"] - @title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/URLS.MVC.styles.css" asp-append-version="true" />
@@ -80,32 +83,35 @@
                         </ul>
                     </div>
                     <!-- Avatar -->
-                    <div class="dropdown">
-                        <a class="dropdown-toggle d-flex align-items-center hidden-arrow"
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown">
+                            <a class="dropdown-toggle d-flex align-items-center hidden-arrow"
                            href="#"
                            id="navbarDropdownMenuAvatar"
                            role="button"
                            data-mdb-toggle="dropdown"
                            aria-expanded="false">
-                            <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                                  class="rounded-circle"
                                  height="25"
                                  alt="Black and White Portrait of a Man"
                                  loading="lazy" />
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end"
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end"
                             aria-labelledby="navbarDropdownMenuAvatar">
-                            <li>
-                                <a class="dropdown-item" href="#">My profile</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Settings</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
+                                <li>
+                                    <a class="dropdown-item" href="#">My profile</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">Settings</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    }
                 </div>
                 <!-- Right elements -->
             </div>
