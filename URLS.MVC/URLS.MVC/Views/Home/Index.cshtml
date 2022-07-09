@@ -14,8 +14,14 @@
                         <h4>@Model.FullName</h4>
                         <p class="text-secondary mb-1">@Model.UserName</p>
                         <p class="text-muted font-size-sm">@Model.JoinAt.ToShortDateString()</p>
-                        <button class="btn btn-primary">Follow</button>
-                        <button class="btn btn-outline-primary">Message</button>
+                        @if (Model.MFA)
+                        {
+                            <a class="btn btn-danger" asp-controller="Account" asp-action="DisableMFA">MFA</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-primary" asp-controller="Account" asp-action="EnableMFA">MFA</a>
+                        }
                     </div>
                 </div>
             </div>

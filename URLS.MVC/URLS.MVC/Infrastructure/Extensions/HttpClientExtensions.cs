@@ -1,4 +1,5 @@
-﻿using URLS.MVC.Infrastructure.Exceptions;
+﻿using URLS.Models;
+using URLS.MVC.Infrastructure.Exceptions;
 using URLS.MVC.Models;
 
 namespace URLS.MVC.Infrastructure.Extensions
@@ -37,7 +38,13 @@ namespace URLS.MVC.Infrastructure.Extensions
         {
             if (!httpResponse.IsSuccessStatusCode)
             {
-                var resposne = httpResponse.Content.ReadFromJsonAsync<Result<Dictionary<string, string[]>>>().Result;
+                var resposne = httpResponse.Content.ReadFromJsonAsync<Result<object>>().Result;
+
+                if (resposne.Message == "Need MFA")
+                {
+                    var sessionId = resposne.Data.ToString();
+                    throw new NeedMFAException(sessionId);
+                }
 
                 if (httpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     throw new UnauthorizedException(resposne.GetError());

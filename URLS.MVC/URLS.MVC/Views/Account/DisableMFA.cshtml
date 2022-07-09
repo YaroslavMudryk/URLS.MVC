@@ -1,0 +1,25 @@
+﻿@model URLS.Models.MFAViewModel
+
+@{
+    ViewData["Title"] = "DisableMFA";
+}
+
+<h1>DisableMFA</h1>
+
+<h4>MFAViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="DisableMFA" asp-controller="Account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ManualEntryKey" class="control-label"></label>
+                <input asp-for="ManualEntryKey" class="form-control" />
+                <span asp-validation-for="ManualEntryKey" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Вимкнути прив'язку" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

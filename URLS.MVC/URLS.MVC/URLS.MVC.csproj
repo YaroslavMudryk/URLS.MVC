@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.6" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
-    <PackageReference Include="URLS.Models" Version="0.0.4" />
+    <PackageReference Include="URLS.Models" Version="0.0.7" />
   </ItemGroup>
 
 </Project>

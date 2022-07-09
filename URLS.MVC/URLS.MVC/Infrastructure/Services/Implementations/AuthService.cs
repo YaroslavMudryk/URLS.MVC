@@ -35,9 +35,24 @@ namespace URLS.MVC.Infrastructure.Services.Implementations
             return await _httpClient.PostFromJsonAsync<Result<UserViewModel>>("api/v1/account/config", model);
         }
 
-        public async Task<Result<object>> GetClaimsAsync()
+        public async Task<Result<bool>> DisableMFAAsync(string code)
         {
-            return await _httpClient.GetFromJsonAsync<Result<object>>("api/v1/account/claims");
+            return await _httpClient.DeleteFromJsonAsync<Result<bool>>($"api/v1/account/mfa/{code}");
+        }
+
+        public async Task<Result<MFAViewModel>> EnableMFAAsync(string code = null)
+        {
+            var url = "api/v1/account/mfa";
+            if (!string.IsNullOrEmpty(code))
+                url += $"?code={code}";
+            return await _httpClient.PostFromJsonAsync<Result<MFAViewModel>>(url, null);
+        }
+
+        public async Task<List<ClaimViewModel>> GetClaimsAsync(string token = null)
+        {
+            if(!string.IsNullOrEmpty(token))
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            return await _httpClient.GetFromJsonAsync<List<ClaimViewModel>>("api/v1/account/claims");
         }
 
         public async Task<Result<UserFullViewModel>> GetMeAsync()
@@ -70,6 +85,11 @@ namespace URLS.MVC.Infrastructure.Services.Implementations
             };
             model.Client = _detector.GetClientInfo();
             return await _httpClient.PostFromJsonAsync<Result<JwtToken>>("api/v1/account/login", model);
+        }
+
+        public async Task<Result<JwtToken>> LoginByMFAAsync(LoginMFAModel model)
+        {
+            return await _httpClient.PostFromJsonAsync<Result<JwtToken>>("api/v1/account/login/mfa", model);
         }
 
         public async Task<Result<bool>> LogoutAsync()

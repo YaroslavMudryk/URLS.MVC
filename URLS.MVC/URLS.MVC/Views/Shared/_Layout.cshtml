@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 @{
-    var title = User.Identity.IsAuthenticated ? User.Claims.FirstOrDefault(s => s.Type == "Login").Value : "URLS.MVC";
+    var title = User.Identity.IsAuthenticated ? User.Claims.FirstOrDefault(s => s.Type == "Login")?.Value : "URLS.MVC";
 }
 <html lang="en">
 <head>

@@ -10,7 +10,7 @@ namespace URLS.MVC.Infrastructure.Extensions
         {
             services.AddHttpClient<IAuthService, AuthService>(client =>
             {
-                client.BaseAddress = new Uri("https://192.168.0.2:45455/");
+                client.BaseAddress = new Uri("https://localhost:5001/");
                 client.Timeout = TimeSpan.FromMinutes(3);
             });
             services.AddDeviceDetector();
