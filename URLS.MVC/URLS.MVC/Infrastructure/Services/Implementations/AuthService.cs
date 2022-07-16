@@ -83,6 +83,7 @@ namespace URLS.MVC.Infrastructure.Services.Implementations
                 Id = "x3Vw-QFdk-Pt0B-7jjd",
                 Secret = "DlST6311QjEfEoUX0JJAsjQGmHrBlUl8qjhXMCaJFJrlTiv0Fn0PcWqOPCEfsrEZuSfvMj"
             };
+            model.Lang = "uk";
             model.Client = _detector.GetClientInfo();
             return await _httpClient.PostFromJsonAsync<Result<JwtToken>>("api/v1/account/login", model);
         }

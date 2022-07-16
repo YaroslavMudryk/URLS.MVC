@@ -1,0 +1,25 @@
+﻿@model URLS.MVC.Models.Result<URLS.Models.GroupViewModel>
+
+@{
+    ViewData["Title"] = "GetGroup";
+}
+
+<h1>Група</h1>
+<hr/>
+@if (Model.IsSuccess())
+{
+    <h3>@Model.Data.Name</h3>
+}
+else
+{
+    @if(Model.GetError().ToLower().Contains("not found"))
+    {
+        <p>Групу не знайдено</p>
+    }
+}
+
+<div>
+</div>
+<div>
+    <a asp-action="Search">Back to List</a>
+</div>

@@ -13,6 +13,11 @@ namespace URLS.MVC.Infrastructure.Extensions
                 client.BaseAddress = new Uri("https://localhost:5001/");
                 client.Timeout = TimeSpan.FromMinutes(3);
             });
+            services.AddHttpClient<IGroupService, GroupService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:5001/");
+                client.Timeout = TimeSpan.FromMinutes(3);
+            });
             services.AddDeviceDetector();
         }
     }
