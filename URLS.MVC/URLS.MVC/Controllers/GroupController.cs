@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using URLS.Models;
 using URLS.MVC.Infrastructure.Services.Interfaces;
 
@@ -32,5 +33,34 @@ namespace URLS.MVC.Controllers
             return View(groupResult);
         }
 
+        [HttpGet("create")]
+        public async Task<IActionResult> Create()
+        {
+            var res = await _groupService.GetAllSpecialtiesAsync();
+            ViewBag.Specialties = res.Data;
+            return View();
+        }
+
+        [HttpPost("create")]
+        public async Task<IActionResult> Create(GroupCreateModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var res = await _groupService.CreateGroupAsync(model);
+                    if (res.IsSuccess())
+                        return LocalRedirect("~/group/search");
+                    ModelState.AddModelError("", res.GetError());
+                    return View(model);
+                }
+                return View(model);
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
+        }
     }
 }

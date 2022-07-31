@@ -15,7 +15,7 @@
                     <div class="mt-3">
                         <h4>@Model.FullName</h4>
                         <p class="text-secondary mb-1">@Model.UserName</p>
-                        <p class="text-muted font-size-sm">@Model.JoinAt.ToShortDateString()</p>
+                        <p class="text-muted font-size-sm">Приєднався @Model.JoinAt.ToShortDateString()</p>
                         @if (Model.MFA)
                         {
                             <a class="btn btn-danger" asp-controller="Account" asp-action="DisableMFA">MFA</a>
@@ -28,20 +28,23 @@
                 </div>
             </div>
         </div>
-        <div class="card mt-3">
-            <ul class="list-group list-group-flush">
-                @foreach (var userGroup in Model.Group.Groups)
-                {
-                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                        <h6 class="mb-0">
-                            <img src="@Image(userGroup.Group.Image)" width="32" height="32"/>
-                            @Html.ActionLink(userGroup.Group.Name, "GetGroup", "Group", new {  id = userGroup.Group.Id  })
-                        </h6>
-                        <span class="text-secondary">@userGroup.UserGroupRole.Name</span>
-                    </li>
-                }
-            </ul>
-        </div>
+        @if (Model.Group != null)
+        {
+            <div class="card mt-3">
+                <ul class="list-group list-group-flush">
+                    @foreach (var userGroup in Model.Group.Groups)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 class="mb-0">
+                                <img src="@Image(userGroup.Group.Image)" width="32" height="32" />
+                                @Html.ActionLink(userGroup.Group.Name, "GetGroup", "Group", new {  id = userGroup.Group.Id  })
+                            </h6>
+                            <span class="text-secondary">@userGroup.UserGroupRole.Name</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
     </div>
     <div class="col-md-8">
         <div class="card mb-3">
@@ -51,37 +54,34 @@
                         <h6 class="mb-0">Full Name</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                        Kenneth Valdez
+                        @Model.FullName
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h6 class="mb-0">Email</h6>
+                @if (!string.IsNullOrEmpty(Model.ContactEmail))
+                {
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Пошта</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.ContactEmail
+                        </div>
                     </div>
-                    <div class="col-sm-9 text-secondary">
-                        @Model.ContactEmail
+                    <hr>
+                }
+                @if (!string.IsNullOrEmpty(Model.ContactPhone))
+                {
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <h6 class="mb-0">Телефон</h6>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                            @Model.ContactPhone
+                        </div>
                     </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h6 class="mb-0">Phone</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                        @Model.ContactPhone
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <h6 class="mb-0">Mobile</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                        (320) 380-4539
-                    </div>
-                </div>
-                <hr>
+                    <hr>
+                }
                 <div class="row">
                     <div class="col-sm-3">
                         <h6 class="mb-0">Активних сесій</h6>

@@ -7,5 +7,7 @@ namespace URLS.MVC.Infrastructure.Services.Interfaces
     {
         Task<Result<List<GroupViewModel>>> SearchGroupsAsync(string name, int offset, int count);
         Task<Result<GroupViewModel>> GetGroupsByIdAsync(int id);
+        Task<Result<GroupViewModel>> CreateGroupAsync(GroupCreateModel model);
+        Task<Result<List<SpecialtyViewModel>>> GetAllSpecialtiesAsync();
     }
 }
